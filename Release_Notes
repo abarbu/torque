@@ -1,0 +1,165 @@
+				                       Release Notes
+
+TORQUE Resource Manager
+
+Software Version 3.0.3
+
+This file contains a few notes on building and installing TORQUE and 
+Release notes concerning some of the new features of this release.
+
+		                   	-------- WARNING! --------
+
+TORQUE 3.0 Communication Changes - WARNING: TORQUE 3.0 has upgraded the 
+communication protocol to version 2 in order to accomodate the multi-mom
+feature (explained below). pbs_server 3.0 will not be able to communicate with
+pbs_moms pre-3.0, and vice versa. Additionally, schedulers will need to use the
+updated TORQUE libraries in order to communicate with the updated TORQUE
+
+TORQUE 2.5 Array Changes - WARNING: TORQUE 2.5 Job Arrays are not backwards
+compatible, you MUST NOT upgrade to this from 2.3 or 2.4 while you have job
+arrays queued - See README.array_changes for more details.
+
+---------------------------------------------------------------------------
+CONTENTS
+
+   This document contains the following sections:
+     
+     * Overview
+     * What's New
+     * Requirements
+     * Installation
+
+--------------------------------------------------------------------------
+OVERVIEW
+
+    The two main features of 3.0 are NUMA support and multi-mom capability.
+    There are also several other minor enhancements and big fixes.
+    For a complete list of changes see CHANGELOG.
+
+    TORQUE 3.0 is not backward compatitble with any previous version of TORQUE.
+    
+    
+---------------------------------------------------------------------------
+WHAT'S NEW
+
+    There is now a --enable-numa-support configure option to make pbs_mom
+    compatible with NUMA systems. This has been extensively tested on UltraViolet
+    and Altix hardware, and is currently in production at several sites.
+    
+    Essentially, this option allows pbs_mom to report "numa nodes" to the 
+    server as subnodes of itself, and in turn the server reports those 
+    "numa nodes" in the pbsnodes output. Numa support also creates cpusets
+    around each job for its memory and cpus. There are many other features
+    that accompany the NUMA support, so please refer to:
+    http://www.clusterresources.com/products/torque/docs/1.7torqueonnuma.shtml
+
+    New in 3.0 is the ability to run multiple pbs_mom daemons from the same 
+    host. To learn more about the multi-mom capability see section 1.7
+    of the TORQUE documentation found at http://www.clusterresources.com/products/torque/docs/index.shtml
+
+    New in 3.0.4:
+      Fixed a problem with job arrays when upgrading to verions 2.5.9. Please see
+      the Installation section below for more details
+
+      Fixed a problem with interactive jobs exiting prematurely.
+
+      Added a new mom option $ext_pwd_retry which allows administrators to set the number
+      of retries when checking for password validity.
+
+      For a complete list of changes see the CHANGELOG.
+
+    New in 3.0.3:
+      There were several bug fixes to TORQUE 3.0.3. Following are a list of
+      noteable bug fixes.
+
+      Added function DIS_tcp_close which frees buffer memory used for sending
+      and receiving tcp data. This reduces the running memory size of TORQUE.
+
+      Fix for a server seg-fault when using the record_job_info.
+
+      Fix for afteranyarray and afterokarry where dependent jobs would not
+      run after the dependent array requirements were satisfied.
+
+      Fix to delete .AR array files from the $TORQUE_HOME/server_priv/arrays
+      directory.
+
+      Fix to recover previous state of job arrays between restarts of pbs_server
+
+      Fix to prevent the server from hanging when moving jobs from one server to
+      another server
+
+      Fix to stop a segfault if using munge and the munge daemon was not running
+
+      Security fix to munge authorization to prevent users from gaining access
+      to TORQUE when munge was not running.
+
+      Fix to allow pam_pbssimpleauth to work properly.
+
+      A new torque.cfg option as added named TRQ_IFNAME. This option allows the
+      administrator to select the outbound tcp interface by interface name for 
+
+
+
+
+REQUIREMENTS
+------------
+
+An ANSI C compiler is required.   The native C compiler is recommended if it
+is ANSI, otherwise use gcc.
+
+A fully POSIX make is required.  If you are unable to "make" PBS with your
+make, we suggest use of gmake from GNU.
+
+Tcl/Tk version 8 or higher is required if you plan to build the GUI portion
+of TORQUE or use a Tcl based scheduler.
+
+
+BUILD AND INSTALLATION DIRECTIONS
+---------------------------------
+
+The directions to build and install are found in the PBS Administrators Guide.
+A postscript and PDF copy are found in this directory.  Please read and
+follow the directions CAREFULLY.
+
+Installation instructions can also be found at http://www.clusterresources.com/products/torque/docs/
+
+TORQUE Upgrade Advisory
+
+TORQUE versions 2.5.9 and 3.0.3 were released with a flaw which makes it impossible
+to upgrade job arrays from previous 2.5.x and 3.0.x versions of TORQUE.  This
+incompatibility has been fixed in TORQUE versions 2.5.10 and 3.0.4. Following is a
+table which summarizes the upgrade procedure based on the current version being used.
+
+------------------------------------------------------------------------------------
+| Current TORQUE version   |  New TORQUE version  | Upgrade Procedure              |
+------------------------------------------------------------------------------------
+| 2.5.0 thourgh 2.5.8      |   2.5.10             | Follow general upgrade         |
+|                          |                      | instructions.                  |
+------------------------------------------------------------------------------------
+| 3.0.0 through 3.0.2      |   3.0.4              | Follow general upgrade         |
+|                          |                      | instructions                   |
+------------------------------------------------------------------------------------
+| 2.5.9                    |   2.5.10             | Follow general upgrade         |
+|                          |                      | instructions. Start pbs_server |
+|                          |                      | for the first time only with   |
+|                          |                      | the -u option.                 |
+|                          |                      | "pbs_server -u"                |
+------------------------------------------------------------------------------------
+| 3.0.3                    |   3.0.4              | Follow general upgrade         |
+|                          |                      | instructions. Start pbs_server |
+|                          |                      | for the first time only with   |
+|                          |                      | the -u option.                 |
+|                          |                      | "pbs_server -u"                |
+------------------------------------------------------------------------------------
+
+To summarize, if you are upgrading from TORQUE versions 2.5.0 though 2.5.8 to 2.5.10
+you only need to follow the standard upgrade instructions.
+
+Similarly if you are upgrading from TORQUE versions 3.0.0 through 3.0.2 to 3.0.4 you
+only need to follow the standard upgrade instructions.
+
+When upgrading from 2.5.9 or 3.0.3 follow the standard upgrade instructions but start
+pbs_server with the -u option on the first use only.  If you use the -u option to
+start pbs_server on subsequent restarts an error message will be printed and pbs_server
+will not start.
+
