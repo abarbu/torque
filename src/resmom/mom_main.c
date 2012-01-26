@@ -164,7 +164,7 @@
 #define CHECK_POLL_TIME     45
 #define DEFAULT_SERVER_STAT_UPDATES 45
 
-#define PMAX_PORT                32000
+#define PMAX_PORT                (IPPORT_USERRESERVED+10000)
 #define MAX_PORT_STRING_LEN      6
 #define MAX_LOCK_FILE_NAME_LEN   15
 #define MAX_RESEND_JOBS          512
@@ -571,7 +571,7 @@ sigset_t  allsigs;
 int   rm_errno;
 unsigned int            reqnum = 0;  /* the packet number */
 
-int   port_care = TRUE; /* secure connecting ports */
+int   port_care = FALSE; /* secure connecting ports */
 uid_t   uid = 0;  /* uid we are running with */
 unsigned int   alarm_time = 10; /* time before alarm */
 

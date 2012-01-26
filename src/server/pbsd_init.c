@@ -480,53 +480,6 @@ int pbsd_init(
     return(-1);
     }
 
-  i = getgid();
-
-  /* secure suppl. groups */
-  if (setgroups(1,(gid_t *)&i) != 0)
-    {
-    snprintf(log_buffer, sizeof(log_buffer),
-      "Unable to drop secondary groups. Some MAC framework is active?\n");
-    log_err(errno, id, log_buffer);
-    snprintf(log_buffer, sizeof(log_buffer),
-      "setgroups(group = %lu) failed: %s\n",
-      (unsigned long)i, strerror(errno));
-    log_err(errno, id, log_buffer);
-
-    return(-1);
-    }
-
-#ifndef DEBUG
-#ifdef _CRAY
-  limit(C_JOB,      0, L_CPROC, 0);
-  limit(C_JOB,      0, L_CPU,   0);
-  limit(C_JOBPROCS, 0, L_CPU,   0);
-  limit(C_PROC,     0, L_FD,    255);
-  limit(C_JOB,      0, L_FSBLK, 0);
-  limit(C_JOBPROCS, 0, L_FSBLK, 0);
-  limit(C_JOB,      0, L_MEM  , 0);
-  limit(C_JOBPROCS, 0, L_MEM  , 0);
-#else /* not  _CRAY */
-    {
-
-    struct rlimit rlimit;
-
-    rlimit.rlim_cur = RLIM_INFINITY;
-    rlimit.rlim_max = RLIM_INFINITY;
-    setrlimit(RLIMIT_CPU,   &rlimit);
-    setrlimit(RLIMIT_FSIZE, &rlimit);
-    setrlimit(RLIMIT_DATA,  &rlimit);
-    setrlimit(RLIMIT_STACK, &rlimit);
-#ifdef RLIMIT_RSS
-    setrlimit(RLIMIT_RSS,   &rlimit);
-#endif /* RLIMIT_RSS */
-#ifdef RLIMIT_VMEM
-    setrlimit(RLIMIT_VMEM,  &rlimit);
-#endif /* RLIMIT_VMEM */
-    }
-#endif /* not _CRAY */
-#endif /* DEBUG */
-
   /* 1. set up to catch or ignore various signals */
 
   sigemptyset(&act.sa_mask);

@@ -1756,7 +1756,7 @@ int main(
 
   rpp_fd = -1;  /* force rpp_bind() to get another socket */
 
-  tryport = IPPORT_RESERVED;
+  tryport = IPPORT_USERRESERVED+10000;
 
   privfd = -1;
 

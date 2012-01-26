@@ -664,7 +664,7 @@ server_command(void)
 
   addr = (pbs_net_t)saddr.sin_addr.s_addr;
 
-  if (ntohs(saddr.sin_port) >= IPPORT_RESERVED)
+  if (ntohs(saddr.sin_port) >= IPPORT_USERRESERVED+10000)
     {
     for (i = 0;i < mask_num;i++)
       {

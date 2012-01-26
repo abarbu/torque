@@ -227,7 +227,7 @@ validateClient(void *saddr)
   int   i;
   int   numClients;
 
-  if (ntohs(((struct sockaddr_in *)saddr)->sin_port) >= IPPORT_RESERVED)
+  if (ntohs(((struct sockaddr_in *)saddr)->sin_port) >= IPPORT_USERRESERVED+10000)
     {
     badconn("non-reserved port", *(struct sockaddr_in *)saddr);
     return(1);

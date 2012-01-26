@@ -668,7 +668,7 @@ server_command()
     return SCH_ERROR;
     }
 
-  if (ntohs(saddr.sin_port) >= IPPORT_RESERVED)
+  if (ntohs(saddr.sin_port) >= IPPORT_USERRESERVED+10000)
     {
     badconn("non-reserved port");
     close(new_socket);

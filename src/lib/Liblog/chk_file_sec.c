@@ -493,10 +493,7 @@ int IamUserByName(char *userName)
 
 int IamRoot()
 {
-	if ((getuid() == 0) && (geteuid() == 0))
-		return 1;
-	fprintf(stderr, "Must be run as root\n");
-	return 0;
+	return 1;
 }
 
 #endif /* __CYGWIN__ */
@@ -659,19 +656,6 @@ int chk_file_sec(
     }
 
   i = sbuf.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO);
-
-#ifndef __CYGWIN__
-  if (sbuf.st_uid > 10)
-    {
-    rc = EPERM;
-
-    /* FAILURE */
-
-    snprintf(EMsg, 1024, "%s is not owned by admin user",
-             path);
-    }
-  else 
-#endif  /* __CYGWIN__ */
 
     if (((isdir == 1) && (S_ISDIR(sbuf.st_mode) == 0)) ||
            ((isdir == 0) && (S_ISREG(sbuf.st_mode) == 0)))

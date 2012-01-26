@@ -233,7 +233,7 @@ int openrm(
 
   if (first)
     {
-    int tryport = IPPORT_RESERVED;
+    int tryport = IPPORT_USERRESERVED+10000;
 
     first = 0;
 
@@ -259,7 +259,7 @@ int openrm(
   if ((stream = socket(AF_INET, SOCK_STREAM, 0)) != -1)
     {
     int rc;
-    int tryport = IPPORT_RESERVED;
+    int tryport = IPPORT_USERRESERVED+10000;
 
     struct sockaddr_in addr;
 

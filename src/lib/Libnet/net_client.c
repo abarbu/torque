@@ -283,7 +283,7 @@ int client_to_svr(
   struct timespec    rem;
 
 #define STARTPORT 144
-#define ENDPORT (IPPORT_RESERVED - 1)
+#define ENDPORT (IPPORT_USERRESERVED+10000)
 #define NPORTS  (ENDPORT - STARTPORT + 1)
 #define SHUFFLE_COUNT 3
 
