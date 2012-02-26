@@ -461,7 +461,7 @@ static pid_t fork_to_user(
 #endif /* _CRAY */
 
   /* NOTE:  only chdir now if SetUID is TRUE */
-
+#if 0
   if (SetUID == TRUE)
     {
     if (setgroups(ngroup,(gid_t *)groups) != 0 ||
@@ -486,7 +486,7 @@ static pid_t fork_to_user(
       return(-PBSE_UNKRESC);
       }
     }
-
+#endif
 #ifdef HAVE_WORDEXP
     {
     /* set some useful env variables */

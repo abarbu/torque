@@ -672,6 +672,7 @@ server_command(void)
         break;
       }
 
+#if 0
     if (i == mask_num)
       {
       badconn("non-reserved port");
@@ -680,6 +681,7 @@ server_command(void)
 
       return(SCH_ERROR);
       }
+#endif
     }
   else
     {

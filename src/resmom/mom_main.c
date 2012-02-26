@@ -7227,6 +7227,7 @@ int setup_program_environment(void)
     exit(1);
     }
 
+#if 0
   c = getgid();
 
   /* secure suppl. groups */
@@ -7275,6 +7276,7 @@ int setup_program_environment(void)
     }  /* END BLOCK */
 #endif /* else _CRAY */
 #endif /* DEBUG */
+#endif
 
   /* set up and validate home paths */
 
@@ -7822,6 +7824,7 @@ int setup_program_environment(void)
 
   init_abort_jobs(recover);
 
+#if 0
 #ifdef _POSIX_MEMLOCK
   /* call mlockall() only 1 time, since it seems to leak mem */
 
@@ -7846,6 +7849,7 @@ int setup_program_environment(void)
     }
 
 #endif /* _POSIX_MEMLOCK */
+#endif
 
   /* record the fact that we are up and running */
 

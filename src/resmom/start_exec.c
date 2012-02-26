@@ -512,7 +512,7 @@ struct passwd *check_pwd(
 
     pjob->ji_qs.ji_un.ji_momt.ji_exgid = pwdp->pw_gid;
     }
-
+#if 0
   if ((pjob->ji_grpcache->gc_ngroup = init_groups( pwdp->pw_name,
                            pjob->ji_qs.ji_un.ji_momt.ji_exgid,
                            NGROUPS_MAX,
@@ -524,6 +524,7 @@ struct passwd *check_pwd(
 
     return(NULL);
     }
+#endif
 
   /* perform site specific check on validatity of account */
 
@@ -3440,6 +3441,7 @@ int TMomFinalizeChild(
     log_ext(-1, id, log_buffer, LOG_DEBUG);
     }
 
+#if 0
   if (setgroups(
                pjob->ji_grpcache->gc_ngroup,
                (gid_t *)pjob->ji_grpcache->gc_groups) != 0)
@@ -3506,6 +3508,8 @@ int TMomFinalizeChild(
   /*
    * cwd to PBS_O_INITDIR if specified, otherwise User's Home
    */
+
+#endif
 
   if ((idir = get_job_envvar(pjob, "PBS_O_INITDIR")) != NULL)
     {
@@ -4981,6 +4985,8 @@ int start_process(
 
   /* become the user and execv the shell and become the real job */
 
+#if 0
+
   if (setgroups(pjob->ji_grpcache->gc_ngroup,
                 (gid_t *)pjob->ji_grpcache->gc_groups) != 0)
     {
@@ -5041,6 +5047,7 @@ int start_process(
   seteuid(pjob->ji_qs.ji_un.ji_momt.ji_exuid); /* cray kludge */
 
 #endif /* CRAY */
+#endif
 
   /* cwd to PBS_O_INITDIR if specified, otherwise User's Home */
 
@@ -6314,6 +6321,7 @@ int open_std_file(
 
     log_ext(-1, id, log_buffer, LOG_DEBUG);
     }
+#if 0
 #ifdef __CYGWIN__
   if (IamRoot() == 1)
 #else
@@ -6357,6 +6365,7 @@ int open_std_file(
       }
     changed_to_user = TRUE;
     }
+#endif
 
   /* these checks are a bit complicated.  If keeping, we do what the user
    * says.  Otherwise, make sure we aren't following a symlink and that

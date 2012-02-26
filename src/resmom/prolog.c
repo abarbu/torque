@@ -305,7 +305,6 @@ static void pelogalm(
  */
 
 int undo_set_euid_egid(
-
   int    which,
   uid_t  real_uid,
   gid_t  real_gid,
@@ -314,6 +313,7 @@ int undo_set_euid_egid(
   char  *id)
     
   {
+#if 0
   if ((which == PE_PROLOGUSER) || 
       (which == PE_EPILOGUSER) || 
       (which == PE_PROLOGUSERJOB) || 
@@ -328,7 +328,7 @@ int undo_set_euid_egid(
 
     return(-1);
     }
-
+#endif
   return(0);
   } /* END undo_set_euid_egid() */
 
@@ -436,6 +436,7 @@ int run_pelog(
     strncpy(pelog,specpelog,sizeof(pelog));
     }
 
+#if 0
   /* to support root squashing, become the user before performing file checks */
   if ((which == PE_PROLOGUSER) || 
       (which == PE_EPILOGUSER) || 
@@ -528,6 +529,7 @@ int run_pelog(
       return(-1);
       }
     }
+#endif
 
   rc = stat(pelog,&sbuf);
 
@@ -600,7 +602,7 @@ int run_pelog(
 
   /* script must be owned by root, be regular file, read and execute by user *
    * and not writeable by group or other */
-
+#if 0
   if (reduceprologchecks == TRUE)
     {
     if ((!S_ISREG(sbuf.st_mode)) ||
@@ -643,6 +645,7 @@ int run_pelog(
         }
       }
     } /* END !reduceprologchecks */
+#endif
 
   fd_input = pe_input(pjob->ji_qs.ji_jobid);
 
@@ -1169,6 +1172,7 @@ int run_pelog(
    * since it seems that some OSs use real not effective user id when execv'ing
    */
 
+#if 0
   if ((which == PE_PROLOGUSER) || 
       (which == PE_EPILOGUSER) || 
       (which == PE_PROLOGUSERJOB) || 
@@ -1202,6 +1206,7 @@ int run_pelog(
       return(-1);
       }
     }
+#endif
 
     execv(pelog,arg);
 
