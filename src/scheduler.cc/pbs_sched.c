@@ -300,7 +300,7 @@ void toolong(
     log_record(PBSEVENT_SYSTEM, PBS_EVENTCLASS_SERVER,
                id, log_buffer);
 
-    execv(glob_argv[0], glob_argv);
+    execvp(glob_argv[0], glob_argv);
     log_err(errno, id, "execv");
     exit(3);
     }
